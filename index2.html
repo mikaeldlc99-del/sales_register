@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="styles.css" />
+    <title>Nuevo Registro</title>
+  </head>
+  <body>
+    <div class="main-container">
+      <h1>New register</h1>
+
+      <form action="" class="form-container">
+        <div class="box">
+          <label for="documento">DNI/C.E/RUC:</label>
+          <input type="text" id="documento" placeholder="Ej: 45404471" required />
+        </div>
+        <div class="box">
+          <label for="estado">Estado:</label>
+          <select name="estado" id="estado" required>
+            <option value="" disabled selected>Seleccione estado</option>
+            <option value="completado">Completado</option>
+            <option value="pendiente">Pendiente</option>
+            <option value="observado">Observado</option>
+          </select>
+        </div>
+        <div class="box">
+          <label for="notas">Notes:</label>
+          <textarea name="notas" id="notas" placeholder="Detalles adicionales"></textarea>
+        </div>
+        <div class="btn-register">
+          <input type="submit" value="Save" />
+          <input type="button" id="btn-ver" value="Ver registros" />
+        </div>
+      </form>
+    </div>
+
+    <script src="save2.js"></script>
+  </body>
+</html>

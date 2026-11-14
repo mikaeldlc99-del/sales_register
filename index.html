@@ -11,14 +11,14 @@
 
       <h1>New register</h1>
 
-      <form action="" class="form-container">
+            <form action="" class="form-container">
         <div class="box">
-          <label for="">DNI/C.E/RUC:</label>
-          <input type="text" placeholder="Ej: 45404471" />
+          <label for="documento">DNI/C.E/RUC:</label>
+          <input type="text" id="documento" placeholder="Ej: 45404471" required />
         </div>
         <div class="box">
           <label for="estado">Estado:</label>
-          <select name="estado" id="estado">
+          <select name="estado" id="estado" required>
             <option value="" disabled selected>Seleccione estado</option>
             <option value="completado">Completado</option>
             <option value="pendiente">Pendiente</option>
@@ -26,14 +26,34 @@
           </select>
         </div>
         <div class="box">
-            <label for="">Notes</label>
-            <textarea name="" id="" placeholder="Detalles adicionales"></textarea>
+            <label for="notas">Notes:</label>
+            <textarea name="notas" id="notas" placeholder="Detalles adicionales"></textarea>
         </div>
         <div class="btn-register">
             <input type="submit" value="Save">
+            <!-- Cambiado a type="button" para que no envíe el formulario -->
+            <input type="button" id="btn-ver" value="Ver registros">
         </div>
       </form>
 
+      <!-- Tabla oculta por defecto hasta que presiones "Ver registros" -->
+      <div class="table-container" id="contenedor-tabla" style="display: none;">
+        <table id="tabla-registros">
+          <thead>
+            <tr>
+              <th>DNI/C.E/RUC</th>
+              <th>Estado</th>
+              <th>Notes</th>
+              <th>Acción</th>
+            </tr>
+          </thead>
+          <tbody></tbody>
+        </table>
+      </div>
+
     </div>
+    <script src="save.js"></script>
+
+
   </body>
 </html>

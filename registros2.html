@@ -1,0 +1,36 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="styles.css" />
+    <title>Lista de Registros</title>
+  </head>
+  <body>
+    <div class="main-container">
+      <h1>Registros Guardados</h1>
+
+      <div class="table-container">
+        <table id="tabla-registros">
+          <thead>
+            <tr>
+              <th>DNI/C.E/RUC</th>
+              <th>Estado</th>
+              <th>Notes</th>
+              <th>Acción</th>
+            </tr>
+          </thead>
+          <tbody>
+            <!-- Los datos se cargan aquí automáticamente -->
+          </tbody>
+        </table>
+      </div>
+
+      <div class="btn-register" style="margin-top: 20px;">
+        <input type="button" value="Volver al formulario" onclick="window.location.href='index2.html'" />
+      </div>
+    </div>
+
+    <script src="mostrar.js"></script>
+  </body>
+</html>
