@@ -1,12 +1,12 @@
 body {
   font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
   background-color: #a7b0cf;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
   margin: 0;
   padding: 20px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  min-height: 100vh;
   box-sizing: border-box;
 }
 
@@ -33,31 +33,54 @@ body {
   color: #ffffff;
 }
 
+/* 1. Evita que el contenedor de la tabla desborde la pantalla */
+.grid-container {
+    min-width: 0;
+}
+
+/* 2. Centra y mantiene en UNA SOLA LÍNEA: ID (1), Fecha (2), Hora (3), Estado (4) y Acción (6) */
+th:nth-child(1), td:nth-child(1),
+th:nth-child(2), td:nth-child(2),
+th:nth-child(3), td:nth-child(3),
+th:nth-child(4), td:nth-child(4),
+th:nth-child(6), td:nth-child(6) {
+    text-align: center;
+    white-space: nowrap;
+}
+
+/* 3. Permite que SOLO Observaciones (columna 5) haga salto de línea sin romper las demás */
+td:nth-child(5) {
+    max-width: 220px;
+    word-break: break-word;
+    overflow-wrap: break-word;
+}
+
+/* 4. Asegura que los botones no partan su texto ("Editar" / "Eliminar") */
+.btn-edit-row, .btn-delete-row {
+    white-space: nowrap;
+}
+
+
 h2 {
   text-align: center;
   margin-top: 0;
   margin-bottom: 20px;
 }
-
 .form-group {
   margin-bottom: 15px;
 }
-
 .search-group {
   display: flex;
   gap: 10px;
 }
-
 .search-group input {
   flex: 1;
 }
-
 label {
   display: block;
   font-weight: 600;
   margin-bottom: 5px;
 }
-
 input[type="text"],
 select,
 textarea {
@@ -69,19 +92,16 @@ textarea {
   font-size: 14px;
   color: #333;
 }
-
 textarea {
   resize: vertical;
   height: 80px;
 }
-
 .btn-actions {
   display: flex;
   flex-direction: column;
   gap: 10px;
   margin-top: 20px;
 }
-
 button {
   padding: 12px;
   color: white;
@@ -92,32 +112,105 @@ button {
   cursor: pointer;
   transition: background 0.3s ease;
 }
-
-#btnSearch {
+#btnBuscar {
   background-color: #007bff;
   width: auto;
   white-space: nowrap;
 }
-
-#btnSearch:hover {
+#btnBuscar:hover {
   background-color: #0056b3;
 }
-
-#btnSend {
+#btnEnviar {
   background-color: #28a745;
   width: 100%;
 }
-
-#btnSend:hover {
+#btnEnviar:hover {
   background-color: #218838;
 }
-
-#btnCancel {
+#btnCancelar {
   background-color: #6c757d;
   width: 100%;
   display: none;
 }
-
-#btnCancel:hover {
+#btnCancelar:hover {
   background-color: #5a6268;
+}
+
+#mensaje {
+  margin-top: 15px;
+  text-align: center;
+  font-weight: bold;
+}
+.exito {
+  color: #28a745;
+}
+.error {
+  color: #dc3545;
+}
+.info {
+  color: #007bff;
+}
+
+.table-responsive {
+  overflow-x: auto;
+  margin-top: 10px;
+}
+table {
+  width: 100%;
+  border-collapse: collapse;
+  background-color: #ffffff;
+  color: #333333;
+  border-radius: 4px;
+  overflow: hidden;
+}
+th,
+td {
+  padding: 12px 15px;
+  text-align: left;
+  border-bottom: 1px solid #ddd;
+  font-size: 13.5px;
+}
+
+th {
+  background-color: #1d2850;
+  color: #ffffff;
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+/* Centra el texto del encabezado "Acción" */
+th:last-child {
+  text-align: center;
+}
+
+/* Centra también los botones dentro de la celda de abajo */
+td:last-child div {
+  justify-content: center;
+}
+
+tr:hover {
+  background-color: #dbe1f7;
+}
+.no-data {
+  text-align: center;
+  color: #b3c2f2;
+  font-style: italic;
+  padding: 20px;
+}
+.btn-edit-row {
+  background-color: #ffc107;
+  color: #333;
+  padding: 5px 10px;
+  font-size: 12px;
+}
+
+.btn-edit-row:hover {
+  background-color: #e0a800;
+}
+
+.btn-delete-row {
+  background-color: #ff0707;
+  color: #f7f0f0;
+  padding: 5px 10px;
+  font-size: 12px;
 }
