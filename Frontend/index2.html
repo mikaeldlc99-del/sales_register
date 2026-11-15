@@ -3,36 +3,90 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="stylesheet" href="/Frontend/styles.css" />
+    <link rel="stylesheet" href="/Frontend/stylesNew.css" />
     <title>Nuevo Registro</title>
   </head>
   <body>
-    <div class="main-container">
-      <h1>New register</h1>
+    <div class="app-grid">
+      <div class="form-container">
+        <!-- COLUMNA 1: FORMULARIO -->
+        <h1 id="formTitle">New register</h1>
 
-      <form action="" class="form-container">
-        <div class="box">
-          <label for="documento">DNI/C.E/RUC:</label>
-          <input type="text" id="documento" placeholder="Ej: 45404471" required />
+        <form action="" class="form-container" id="formRegister">
+          <div class="form-group">
+            <label for="id">DNI/C.E/RUC:</label>
+            <div class="search-group">
+              <input type="text" id="id" placeholder="Ej: 45404471" required />
+              <button type="button" id="btnSearch" onclick="searchRegister()">
+                Search ID
+              </button>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="status">Status:</label>
+            <select name="status" id="status" required>
+              <option value="" disabled selected>Select status</option>
+              <option value="completado">Approved</option>
+              <option value="pendiente">Pending</option>
+              <option value="observado">Under Review</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label for="notas">Review Notes:</label>
+            <textarea
+              name="notas"
+              id="notas"
+              placeholder="Aditional Details"
+            ></textarea>
+          </div>
+
+          <div class="btn-actions">
+            <button type="button" id="btnSend" onclick="procesarFormulario()">
+              Guardar Registro
+            </button>
+            <button
+              type="button"
+              id="btnCancel"
+              onclick="resetearFormulario()"
+            >
+              Cancelar Edición
+            </button>
+          </div>
+
+          <div id="message"></div>
+
+          <!-- <div class="btn-register">
+            <input type="submit" value="Save" />
+            <input type="button" id="btn-ver" value="Ver registros" />
+          </div> -->
+        </form>
+      </div>
+      
+      <!-- COLUMNA 2: TABLA DE COINCIDENCIAS -->
+      <div class="grid-container">
+        <h2>Registros Encontrados</h2>
+        <div class="table-responsive">
+          <table>
+            <thead>
+              <tr>
+                <th>ID</th>
+                <th>Fecha</th>
+                <th>Hora</th>
+                <th>Estado</th>
+                <th>Observaciones</th>
+                <th>Acción</th>
+              </tr>
+            </thead>
+            <tbody id="tablaCuerpo">
+              <tr>
+                <td colspan="6" class="no-data">Realice una búsqueda para mostrar los registros.</td>
+              </tr>
+            </tbody>
+          </table>
         </div>
-        <div class="box">
-          <label for="estado">Estado:</label>
-          <select name="estado" id="estado" required>
-            <option value="" disabled selected>Seleccione estado</option>
-            <option value="completado">Completado</option>
-            <option value="pendiente">Pendiente</option>
-            <option value="observado">Observado</option>
-          </select>
-        </div>
-        <div class="box">
-          <label for="notas">Notes:</label>
-          <textarea name="notas" id="notas" placeholder="Detalles adicionales"></textarea>
-        </div>
-        <div class="btn-register">
-          <input type="submit" value="Save" />
-          <input type="button" id="btn-ver" value="Ver registros" />
-        </div>
-      </form>
+      </div>
     </div>
 
     <script src="/Frontend/save2.js"></script>
