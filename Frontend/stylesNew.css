@@ -1,216 +1,358 @@
+:root {
+  --bg-body: #a7b0cf;
+  --bg-card: #293769;
+  --border-card: transparent;
+  --text-main: #ffffff;
+  --text-label: #ffffff;
+  --bg-input: #ffffff;
+  --border-input: #ccc;
+  --text-input: #333333;
+  --bg-table: #ffffff;
+  --text-table: #333333;
+  --border-table: #ddd;
+  --bg-th: #1d2850;
+  --text-th: #ffffff;
+  --bg-hover: #dbe1f7;
+  --text-nodata: #64748b;
+  --color-exito: #4ade80;
+  --color-error: #f87171;
+  --color-info: #60a5fa;
+}
+
+body.dark-mode {
+  --bg-body: #0b0f19;
+  --bg-card: #131b2e;
+  --border-card: #1e293b;
+  --text-main: #f8fafc;
+  --text-label: #cbd5e1;
+  --bg-input: #0f172a;
+  --border-input: #334155;
+  --text-input: #f1f5f9;
+  --bg-table: #0f172a;
+  --text-table: #e2e8f0;
+  --border-table: #1e293b;
+  --bg-th: #090d16;
+  --text-th: #93c5fd;
+  --bg-hover: #1e293b;
+  --text-nodata: #64748b;
+  --color-exito: #4ade80;
+  --color-error: #f87171;
+  --color-info: #60a5fa;
+}
+
 body {
   font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
-  background-color: #a7b0cf;
+  background-color: var(--bg-body);
   display: flex;
   justify-content: center;
-  align-items: center;
+  align-items: flex-start;
   min-height: 100vh;
   margin: 0;
-  padding: 20px;
+  padding: 75px 20px 20px 20px; /* 75px arriba para separar bien de la barra superior */
   box-sizing: border-box;
+  transition: background-color 0.3s ease;
 }
+
+
+/* Barra superior flotante a la derecha */
+.top-bar {
+  position: fixed;
+  top: 15px;
+  right: 20px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  z-index: 1000;
+}
+
+.report-controls {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background-color: var(--bg-card);
+  border: 1px solid var(--border-input);
+  padding: 5px 8px;
+  border-radius: 25px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.25);
+}
+
+input[type="date"] {
+  background-color: transparent;
+  border: none;
+  color: var(--text-main);
+  font-family: inherit;
+  font-size: 13px;
+  padding: 4px 6px;
+  outline: none;
+  cursor: pointer;
+}
+
+/* Cambia el icono del calendario a blanco en modo oscuro */
+body.dark-mode input[type="date"] {
+  color-scheme: dark;
+}
+
+#btnReporte {
+  background-color: #0284c7;
+  color: #ffffff;
+  padding: 7px 14px;
+  border-radius: 20px;
+  font-size: 13px;
+  white-space: nowrap;
+}
+
+#btnReporte:hover {
+  background-color: #0369a1;
+}
+
+#btnTema {
+  background-color: var(--bg-card);
+  color: var(--text-main);
+  border: 1px solid var(--border-input);
+  padding: 10px 15px;
+  border-radius: 25px;
+  font-size: 13px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.25);
+  white-space: nowrap;
+}
+
+#btnTema:hover {
+  opacity: 0.9;
+}
+
 
 .app-grid {
   display: grid;
   grid-template-columns: 1fr;
   gap: 20px;
   width: 100%;
-  max-width: 1200px;
+  max-width: 1400px;
 }
 
 @media (min-width: 768px) {
   .app-grid {
-    grid-template-columns: 380px 1fr;
+    grid-template-columns: 350px 1fr;
   }
 }
 
 .form-container,
 .grid-container {
-  background-color: #293769;
+  background-color: var(--bg-card);
+  border: 1px solid var(--border-card);
   padding: 30px;
-  border-radius: 8px;
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
-  color: #ffffff;
+  border-radius: 10px;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+  color: var(--text-main);
+  transition: background-color 0.3s ease, color 0.3s ease;
 }
 
-/* 1. Evita que el contenedor de la tabla desborde la pantalla */
 .grid-container {
-    min-width: 0;
+  min-width: 0;
 }
 
-/* 2. Centra y mantiene en UNA SOLA LÍNEA: ID (1), Fecha (2), Hora (3), Estado (4) y Acción (6) */
 th:nth-child(1), td:nth-child(1),
 th:nth-child(2), td:nth-child(2),
 th:nth-child(3), td:nth-child(3),
 th:nth-child(4), td:nth-child(4),
-th:nth-child(6), td:nth-child(6) {
-    text-align: center;
-    white-space: nowrap;
+th:nth-child(5), td:nth-child(5),
+th:nth-child(7), td:nth-child(7) {
+  text-align: center;
+  white-space: nowrap;
 }
 
-/* 3. Permite que SOLO Observaciones (columna 5) haga salto de línea sin romper las demás */
-td:nth-child(5) {
-    max-width: 220px;
-    word-break: break-word;
-    overflow-wrap: break-word;
+td:nth-child(6) {
+  max-width: 220px;
+  word-break: break-word;
+  overflow-wrap: break-word;
 }
 
-/* 4. Asegura que los botones no partan su texto ("Editar" / "Eliminar") */
 .btn-edit-row, .btn-delete-row {
-    white-space: nowrap;
+  white-space: nowrap;
 }
-
 
 h2 {
   text-align: center;
   margin-top: 0;
   margin-bottom: 20px;
 }
+
 .form-group {
   margin-bottom: 15px;
 }
+
 .search-group {
   display: flex;
-  gap: 10px;
+  gap: 8px;
 }
+
 .search-group input {
   flex: 1;
+  min-width: 0;
 }
+
 label {
   display: block;
   font-weight: 600;
-  margin-bottom: 5px;
+  margin-bottom: 6px;
+  color: var(--text-label);
+  font-size: 14px;
 }
+
 input[type="text"],
 select,
 textarea {
   width: 100%;
   padding: 10px;
-  border: 1px solid #ccc;
-  border-radius: 4px;
+  background-color: var(--bg-input);
+  border: 1px solid var(--border-input);
+  border-radius: 6px;
   box-sizing: border-box;
   font-size: 14px;
-  color: #333;
+  color: var(--text-input);
+  transition: background-color 0.3s ease, color 0.3s ease, border-color 0.2s ease;
 }
+
+input[type="text"]:focus,
+select:focus,
+textarea:focus {
+  outline: none;
+  border-color: #3b82f6;
+}
+
 textarea {
   resize: vertical;
   height: 80px;
 }
+
 .btn-actions {
   display: flex;
   flex-direction: column;
   gap: 10px;
   margin-top: 20px;
 }
+
 button {
-  padding: 12px;
+  padding: 11px 14px;
   color: white;
   border: none;
-  border-radius: 4px;
-  font-size: 15px;
-  font-weight: bold;
+  border-radius: 6px;
+  font-size: 14px;
+  font-weight: 600;
   cursor: pointer;
-  transition: background 0.3s ease;
+  transition: background 0.2s ease, transform 0.1s ease;
 }
+
 #btnBuscar {
-  background-color: #007bff;
+  background-color: #2563eb;
   width: auto;
   white-space: nowrap;
 }
 #btnBuscar:hover {
-  background-color: #0056b3;
+  background-color: #1d4ed8;
 }
+
+#btnLimpiar {
+  background-color: #475569;
+  width: auto;
+  white-space: nowrap;
+}
+#btnLimpiar:hover {
+  background-color: #334155;
+}
+
 #btnEnviar {
-  background-color: #28a745;
+  background-color: #16a34a;
   width: 100%;
 }
 #btnEnviar:hover {
-  background-color: #218838;
+  background-color: #15803d;
 }
+
 #btnCancelar {
-  background-color: #6c757d;
+  background-color: #475569;
   width: 100%;
   display: none;
 }
 #btnCancelar:hover {
-  background-color: #5a6268;
+  background-color: #334155;
 }
 
 #mensaje {
   margin-top: 15px;
   text-align: center;
-  font-weight: bold;
+  font-weight: 600;
+  font-size: 14px;
 }
-.exito {
-  color: #28a745;
-}
-.error {
-  color: #dc3545;
-}
-.info {
-  color: #007bff;
-}
+.exito { color: var(--color-exito); }
+.error { color: var(--color-error); }
+.info  { color: var(--color-info); }
 
 .table-responsive {
   overflow-x: auto;
   margin-top: 10px;
+  border-radius: 6px;
+  border: 1px solid var(--border-table);
 }
+
 table {
   width: 100%;
   border-collapse: collapse;
-  background-color: #ffffff;
-  color: #333333;
-  border-radius: 4px;
+  background-color: var(--bg-table);
+  color: var(--text-table);
   overflow: hidden;
+  transition: background-color 0.3s ease, color 0.3s ease;
 }
+
 th,
 td {
-  padding: 12px 15px;
+  padding: 11px 10px;
   text-align: left;
-  border-bottom: 1px solid #ddd;
+  border-bottom: 1px solid var(--border-table);
   font-size: 13.5px;
 }
 
 th {
-  background-color: #1d2850;
-  color: #ffffff;
+  background-color: var(--bg-th);
+  color: var(--text-th);
   font-weight: 600;
   white-space: nowrap;
 }
 
-/* Centra el texto del encabezado "Acción" */
 th:last-child {
   text-align: center;
 }
 
-/* Centra también los botones dentro de la celda de abajo */
 td:last-child div {
   justify-content: center;
 }
 
 tr:hover {
-  background-color: #dbe1f7;
+  background-color: var(--bg-hover);
 }
+
 .no-data {
   text-align: center;
-  color: #b3c2f2;
+  color: var(--text-nodata);
   font-style: italic;
-  padding: 20px;
+  padding: 25px;
 }
+
 .btn-edit-row {
-  background-color: #ffc107;
-  color: #333;
+  background-color: #eab308;
+  color: #0f172a;
   padding: 5px 10px;
   font-size: 12px;
 }
-
 .btn-edit-row:hover {
-  background-color: #e0a800;
+  background-color: #ca8a04;
 }
 
 .btn-delete-row {
-  background-color: #ff0707;
-  color: #f7f0f0;
+  background-color: #dc2626;
+  color: #ffffff;
   padding: 5px 10px;
   font-size: 12px;
+}
+.btn-delete-row:hover {
+  background-color: #b91c1c;
 }

@@ -1,0 +1,329 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Reporte Diario de Registros</title>
+    <style>
+        :root {
+            --bg-body: #a7b0cf;
+            --bg-card: #293769;
+            --border-card: transparent;
+            --text-main: #ffffff;
+            --text-muted: #cbd5e1;
+            --bg-stat: #1d2850;
+            --border-stat: #3b4d8c;
+            --text-stat: #4ade80;
+            --bg-table: #ffffff;
+            --text-table: #333333;
+            --border-table: #ddd;
+            --bg-th: #1d2850;
+            --text-th: #ffffff;
+            --bg-total-row: #e2e8f0;
+            --text-total-accent: #15803d;
+        }
+
+        body.dark-mode {
+            --bg-body: #0b0f19;
+            --bg-card: #131b2e;
+            --border-card: #1e293b;
+            --text-main: #f8fafc;
+            --text-muted: #94a3b8;
+            --bg-stat: #0f172a;
+            --border-stat: #1e293b;
+            --text-stat: #4ade80;
+            --bg-table: #0f172a;
+            --text-table: #e2e8f0;
+            --border-table: #1e293b;
+            --bg-th: #090d16;
+            --text-th: #93c5fd;
+            --bg-total-row: #1e293b;
+            --text-total-accent: #4ade80;
+        }
+
+        body {
+            font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--bg-body);
+            color: var(--text-main);
+            margin: 0;
+            padding: 30px;
+            transition: background-color 0.3s ease, color 0.3s ease;
+        }
+
+        .report-container {
+            max-width: 1000px;
+            margin: 0 auto;
+            background-color: var(--bg-card);
+            border: 1px solid var(--border-card);
+            border-radius: 10px;
+            padding: 30px;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.35);
+            transition: background-color 0.3s ease;
+        }
+
+        .header-report {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            align-items: center;
+            gap: 15px;
+            border-bottom: 1px solid var(--border-stat);
+            padding-bottom: 20px;
+            margin-bottom: 20px;
+        }
+
+        .header-actions {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+        }
+
+        h1 { margin: 0; font-size: 22px; color: var(--text-main); }
+        h2 { font-size: 16px; color: var(--text-th); margin: 25px 0 10px 0; }
+        body:not(.dark-mode) h2 { color: #ffffff; }
+
+        .fecha-titulo { color: var(--text-muted); font-size: 15px; margin-top: 5px; }
+
+        .btn-action {
+            border: none;
+            padding: 10px 16px;
+            border-radius: 6px;
+            font-weight: 600;
+            font-size: 13.5px;
+            cursor: pointer;
+            transition: opacity 0.2s ease, background-color 0.2s ease;
+        }
+
+        .btn-print {
+            background-color: #2563eb;
+            color: #ffffff;
+        }
+        .btn-print:hover { background-color: #1d4ed8; }
+
+        .btn-tema {
+            background-color: var(--bg-stat);
+            color: var(--text-main);
+            border: 1px solid var(--border-stat);
+            border-radius: 20px;
+        }
+        .btn-tema:hover { opacity: 0.9; }
+
+        .cards-resumen {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+            margin-bottom: 25px;
+        }
+
+        .card-stat {
+            background-color: var(--bg-stat);
+            border: 1px solid var(--border-stat);
+            padding: 15px 20px;
+            border-radius: 8px;
+            min-width: 130px;
+        }
+        .card-stat span { display: block; font-size: 12px; color: var(--text-muted); }
+        .card-stat strong { font-size: 22px; color: var(--text-stat); }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            background-color: var(--bg-table);
+            color: var(--text-table);
+            border-radius: 6px;
+            overflow: hidden;
+            margin-bottom: 25px;
+        }
+
+        th, td {
+            padding: 12px;
+            text-align: center;
+            border-bottom: 1px solid var(--border-table);
+            font-size: 14px;
+        }
+
+        th { background-color: var(--bg-th); color: var(--text-th); }
+        #tablaReporte td:last-child { text-align: left; }
+
+        .fila-total {
+            background-color: var(--bg-total-row);
+            font-weight: bold;
+        }
+        .total-accent {
+            color: var(--text-total-accent);
+        }
+
+        @media print {
+            body { background-color: #ffffff !important; color: #000000 !important; padding: 0; }
+            .report-container { box-shadow: none; border: none; background: #ffffff !important; color: #000 !important; }
+            .header-actions { display: none; }
+            h1, h2, .fecha-titulo { color: #000 !important; }
+            .card-stat { background: #f8fafc !important; border: 1px solid #ccc; }
+            .card-stat strong, .card-stat span { color: #000 !important; }
+            table { background: #fff !important; color: #000 !important; }
+            th { background: #e2e8f0 !important; color: #000 !important; }
+            td, th { border: 1px solid #ccc !important; }
+            .fila-total { background: #f1f5f9 !important; }
+            .total-accent { color: #000 !important; }
+        }
+    </style>
+</head>
+<body>
+    <div class="report-container">
+        <div class="header-report">
+            <div>
+                <h1>Reporte Diario de Ventas / Registros</h1>
+                <div class="fecha-titulo" id="subtituloFecha">Cargando fecha...</div>
+            </div>
+            <div class="header-actions">
+                <button type="button" class="btn-action btn-tema" id="btnTemaReporte" onclick="alternarTemaReporte()">🌙 Modo Oscuro</button>
+                <button type="button" class="btn-action btn-print" onclick="window.print()">🖨️ Imprimir / PDF</button>
+            </div>
+        </div>
+
+        <div class="cards-resumen" id="cardsResumen"></div>
+
+        <!-- TABLA 1: CONTEO POR HORA -->
+        <h2>Resumen por Hora</h2>
+        <table>
+            <thead id="theadHoras"></thead>
+            <tbody id="tbodyHoras"></tbody>
+        </table>
+
+        <!-- TABLA 2: LISTADO COMPLETO DEL DÍA -->
+        <h2>Detalle de Registros</h2>
+        <table>
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>DNI/C.E/RUC</th>
+                    <th>Hora</th>
+                    <th>Estado</th>
+                    <th>Observaciones</th>
+                </tr>
+            </thead>
+            <tbody id="tablaReporte"></tbody>
+        </table>
+    </div>
+
+    <script>
+        const API_URL = "http://localhost:3000/api/registros";
+        const params = new URLSearchParams(window.location.search);
+        const fechaSeleccionada = params.get("fecha");
+
+        // Sincronizar tema al cargar la página
+        function aplicarTemaInicial() {
+            const temaGuardado = localStorage.getItem("temaPreferido");
+            const btnTema = document.getElementById("btnTemaReporte");
+
+            if (temaGuardado === "oscuro") {
+                document.body.classList.add("dark-mode");
+                btnTema.textContent = "☀️ Modo Claro";
+            } else {
+                document.body.classList.remove("dark-mode");
+                btnTema.textContent = "🌙 Modo Oscuro";
+            }
+        }
+
+        function alternarTemaReporte() {
+            const esOscuro = document.body.classList.toggle("dark-mode");
+            const btnTema = document.getElementById("btnTemaReporte");
+
+            if (esOscuro) {
+                localStorage.setItem("temaPreferido", "oscuro");
+                btnTema.textContent = "☀️ Modo Claro";
+            } else {
+                localStorage.setItem("temaPreferido", "claro");
+                btnTema.textContent = "🌙 Modo Oscuro";
+            }
+        }
+
+        window.addEventListener("DOMContentLoaded", async () => {
+            aplicarTemaInicial();
+
+            if (!fechaSeleccionada) {
+                document.getElementById("subtituloFecha").textContent = "No se especificó una fecha.";
+                return;
+            }
+
+            const [anio, mes, dia] = fechaSeleccionada.split("-");
+            document.getElementById("subtituloFecha").textContent = `Fecha del reporte: ${dia}/${mes}/${anio}`;
+
+            try {
+                const res = await fetch(`${API_URL}/reporte/${fechaSeleccionada}`);
+                const datos = await res.json();
+                renderizarReporte(datos);
+            } catch (error) {
+                document.getElementById("tablaReporte").innerHTML = 
+                    `<tr><td colspan="5">Error al conectar con el servidor.</td></tr>`;
+            }
+        });
+
+        function renderizarReporte(datos) {
+            const tbody = document.getElementById("tablaReporte");
+            const cards = document.getElementById("cardsResumen");
+
+            if (datos.length === 0) {
+                tbody.innerHTML = `<tr><td colspan="5">No se encontraron registros en esta fecha.</td></tr>`;
+                cards.innerHTML = `<div class="card-stat"><span>Total Registros</span><strong>0</strong></div>`;
+                document.getElementById("theadHoras").innerHTML = "";
+                document.getElementById("tbodyHoras").innerHTML = "";
+                return;
+            }
+
+            const conteo = datos.reduce((acc, reg) => {
+                acc[reg.estado] = (acc[reg.estado] || 0) + 1;
+                return acc;
+            }, {});
+
+            cards.innerHTML = `<div class="card-stat"><span>Total del Día</span><strong>${datos.length}</strong></div>` +
+                Object.entries(conteo).map(([estado, cant]) => `
+                    <div class="card-stat">
+                        ${estado}
+${cant}
+
+`).join("");
+tbody.innerHTML = datos.map(reg => `
+${reg.id}
+${reg.dni}${reg.hora}${reg.estado}${reg.Observaciones || "-"}`).join("");
+renderizarResumenPorHora(datos);
+}
+function renderizarResumenPorHora(datos) {
+const thead = document.getElementById("theadHoras");
+const tbody = document.getElementById("tbodyHoras");
+const estados = [...new Set(datos.map(r => r.estado))];
+const porHora = {};
+const totalesEstado = {};
+estados.forEach(est => totalesEstado[est] = 0);
+datos.forEach(reg => {
+const partes = reg.hora.split(":");
+let horaNum = parseInt(partes[0], 10);
+if (reg.hora.includes("PM") && horaNum !== 12) {
+horaNum += 12;
+} else if (reg.hora.includes("AM") && horaNum === 12) {
+horaNum = 0;
+}
+const hora24 = String(horaNum).padStart(2, "0");
+if (!porHora[hora24]) {
+porHora[hora24] = { total: 0 };
+estados.forEach(est => porHora[hora24][est] = 0);
+}
+porHora[hora24][reg.estado]++;
+porHora[hora24].total++;
+totalesEstado[reg.estado]++;
+});
+thead.innerHTML = `
+Hora
+{estados.map(est => `<th>{est}`).join("")}
+Total`;
+const horasOrdenadas = Object.keys(porHora).sort();
+let filasHTML = horasOrdenadas.map(h => `
+${h}:00
+{estados.map(est => `<td>{porHora[h][est] || "-"}`).join("")}
+${porHora[h].total}`).join("");
+filasHTML += `
+Total del Día
+{estados.map(est => `<td>{totalesEstado[est]}`).join("")}
+${datos.length}`;
+tbody.innerHTML = filasHTML;
+}
