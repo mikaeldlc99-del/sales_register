@@ -77,7 +77,52 @@
         </form>
       </div>
 
-      <!-- COLUMNA 2: TABLA DE COINCIDENCIAS -->
+      <!-- COLUMNA 2: PLANTILLAS -->
+      <section class="panel panel-plantillas">
+        <h2>Plantillas Rápidas</h2>
+
+        <!-- Formulario breve para agregar nuevas plantillas -->
+        <div class="agregar-plantilla">
+          <input
+            type="text"
+            id="nueva-plantilla-texto"
+            placeholder="Escribe una nueva plantilla..."
+          />
+          <button
+            type="button"
+            onclick="agregarPlantilla()"
+            class="btn-agregar"
+          >
+            +
+          </button>
+        </div>
+
+        <!-- Lista donde se mostrarán las plantillas guardadas -->
+        <div id="lista-plantillas" class="lista-plantillas">
+          <!-- Ejemplo de plantilla precargada -->
+          <div class="tarjeta-plantilla">
+            <p>Cliente conforme con la atención brindada.</p>
+            <div class="acciones-plantilla">
+              <button
+                type="button"
+                onclick="copiarTexto(this)"
+                class="btn-copiar"
+              >
+                Copiar
+              </button>
+              <button
+                type="button"
+                onclick="eliminarPlantilla(this)"
+                class="btn-borrar-mini"
+              >
+                ×
+              </button>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- COLUMNA 3: TABLA DE COINCIDENCIAS -->
       <div class="grid-container">
         <h2>Registros Encontrados</h2>
         <div class="table-responsive">
@@ -103,6 +148,7 @@
           </table>
         </div>
       </div>
+      
     </div>
     <script src="codeNew.js"></script>
   </body>

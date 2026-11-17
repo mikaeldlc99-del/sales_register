@@ -123,11 +123,119 @@ body.dark-mode input[type="date"] {
 
 .app-grid {
   display: grid;
-  grid-template-columns: 1fr;
+  /*grid-template-columns: 1fr;*/
+  /* 1fr para formulario, 1fr para plantillas, 2fr (el doble) para la tabla */
+  grid-template-columns: 1fr 2fr 1fr; 
   gap: 20px;
   width: 100%;
   max-width: 1400px;
 }
+
+/* Estilo base para tus paneles azul oscuro */
+.panel {
+  background-color: #243b6b; /* Tono similar al de tu imagen */
+  color: #ffffff;
+  border-radius: 12px;
+  padding: 20px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+}
+
+/* Estilos internos de la sección de plantillas */
+.agregar-plantilla {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 15px;
+}
+
+/* Estilos internos de la sección de plantillas */
+.agregar-plantilla {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 15px;
+}
+
+.agregar-plantilla input {
+  flex: 1;
+  padding: 8px 12px;
+  border-radius: 6px;
+  border: none;
+  outline: none;
+}
+
+.btn-agregar {
+  background-color: #28a745;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  padding: 0 14px;
+  font-size: 18px;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.lista-plantillas {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  max-height: 450px; /* Evita que crezca demasiado hacia abajo */
+  overflow-y: auto;  /* Agrega barra de desplazamiento si hay muchas */
+}
+
+.tarjeta-plantilla {
+  background-color: #1b2d52;
+  padding: 12px;
+  border-radius: 8px;
+  border-left: 4px solid #3b82f6;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 10px;
+}
+
+.tarjeta-plantilla p {
+  margin: 0;
+  font-size: 14px;
+  line-height: 1.4;
+  word-break: break-word;
+}
+
+.acciones-plantilla {
+  display: flex;
+  gap: 5px;
+  flex-shrink: 0;
+}
+
+.btn-copiar {
+  background-color: #3b82f6;
+  color: white;
+  border: none;
+  padding: 6px 10px;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 12px;
+}
+
+.btn-copiar:hover {
+  background-color: #2563eb;
+}
+
+.btn-borrar-mini {
+  background-color: #ef4444;
+  color: white;
+  border: none;
+  padding: 6px 8px;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 12px;
+}
+
+/* Adaptación para pantallas pequeñas o tablets */
+@media (max-width: 1100px) {
+  .contenedor-principal {
+    grid-template-columns: 1fr; /* Se apilan una debajo de otra */
+  }
+}
+
 
 @media (min-width: 768px) {
   .app-grid {

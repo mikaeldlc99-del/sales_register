@@ -254,3 +254,71 @@ function abrirReporteEnPestana() {
     }
     window.open(`reporte.html?fecha=${fecha}`, "_blank");
 }
+
+// Cargar plantillas guardadas al abrir la página
+document.addEventListener("DOMContentLoaded", cargarPlantillasGuardadas);
+
+function copiarTexto(boton) {
+  // Busca el párrafo <p> dentro de la misma tarjeta
+  const texto = boton.closest(".tarjeta-plantilla").querySelector("p").innerText;
+  
+  // Copia al portapapeles
+  navigator.clipboard.writeText(texto).then(() => {
+    const textoOriginal = boton.innerText;
+    boton.innerText = "¡Copiado!";
+    boton.style.backgroundColor = "#10b981"; // Cambia a verde temporalmente
+    
+    setTimeout(() => {
+      boton.innerText = textoOriginal;
+      boton.style.backgroundColor = "#3b82f6";
+    }, 1500);
+  });
+}
+
+function agregarPlantilla() {
+  const input = document.getElementById("nueva-plantilla-texto");
+  const texto = input.value.trim();
+  
+  if (texto === "") return;
+
+  crearElementoPlantilla(texto);
+  guardarEnNavegador();
+  input.value = ""; // Limpia el campo
+}
+
+function crearElementoPlantilla(texto) {
+  const lista = document.getElementById("lista-plantillas");
+  
+  const tarjeta = document.createElement("div");
+  tarjeta.className = "tarjeta-plantilla";
+  tarjeta.innerHTML = `
+    <p>${texto}</p>
+    <div class="acciones-plantilla">
+      <button type="button" onclick="copiarTexto(this)" class="btn-copiar">Copiar</button>
+      <button type="button" onclick="eliminarPlantilla(this)" class="btn-borrar-mini">×</button>
+    </div>
+  `;
+  
+  lista.appendChild(tarjeta);
+}
+
+function eliminarPlantilla(boton) {
+  boton.closest(".tarjeta-plantilla").remove();
+  guardarEnNavegador();
+}
+
+function guardarEnNavegador() {
+  const plantillas = [];
+  document.querySelectorAll("#lista-plantillas .tarjeta-plantilla p").forEach(p => {
+    plantillas.push(p.innerText);
+  });
+  localStorage.setItem("misPlantillas", JSON.stringify(plantillas));
+}
+
+function cargarPlantillasGuardadas() {
+  const guardadas = JSON.parse(localStorage.getItem("misPlantillas"));
+  if (guardadas && guardadas.length > 0) {
+    document.getElementById("lista-plantillas").innerHTML = ""; // Limpia el ejemplo
+    guardadas.forEach(texto => crearElementoPlantilla(texto));
+  }
+}
