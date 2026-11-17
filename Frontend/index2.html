@@ -1,155 +1,134 @@
 <!doctype html>
 <html lang="es">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="stylesheet" href="stylesNew.css" />
-    <title>Nuevo Registro</title>
-  </head>
-  <body>
-    <div class="top-bar">
-      <div class="report-controls">
-        <input type="date" id="fechaReporte" />
-        <button type="button" id="btnReporte" onclick="abrirReporteEnPestana()">
-          📊 Reporte del Día
-        </button>
-      </div>
-      <button
-        type="button"
-        id="btnTema"
-        onclick="alternarTema()"
-        title="Cambiar tema"
-      >
-        🌙 Modo Oscuro
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="stylesheet" href="stylesNew.css" />
+  <title>Nuevo Registro</title>
+</head>
+
+<body>
+  <div class="top-bar">
+    <div class="report-controls">
+      <input type="date" id="fechaReporte" />
+      <button type="button" id="btnReporte" onclick="abrirReporteEnPestana()">
+        📊 Reporte del Día
       </button>
     </div>
+    <button type="button" id="btnTema" onclick="alternarTema()" title="Cambiar tema">
+      🌙 Modo Oscuro
+    </button>
+  </div>
 
-    <div class="app-grid">
-      <!-- COLUMNA 1: FORMULARIO -->
-      <div class="form-container">
-        <h1 id="formTitulo">Nuevo Registro</h1>
-        <form id="registroForm">
-          <div class="form-group">
-            <label for="id">DNI/C.E/RUC:</label>
-            <div class="search-group">
-              <input type="text" id="id" required placeholder="Ej: 45404471" />
-              <button type="button" id="btnBuscar" onclick="buscarRegistro()">
-                Buscar ID
-              </button>
-              <button type="button" id="btnLimpiar" onclick="limpiarBusqueda()">
-                Todos
-              </button>
-            </div>
-          </div>
+  <div class="app-grid">
+    <!-- COLUMNA 1: FORMULARIO -->
 
-          <div class="form-group">
-            <label for="estado">Estado:</label>
-            <select id="estado" required>
-              <option value="" disabled selected>Seleccione un estado</option>
-              <option value="Pendiente">Pendiente</option>
-              <option value="Completado">Completado</option>
-              <option value="Observado">Observado</option>
-            </select>
-          </div>
-
-          <div class="form-group">
-            <label for="observaciones">Observaciones:</label>
-            <textarea
-              id="observaciones"
-              placeholder="Detalles adicionales..."
-            ></textarea>
-          </div>
-
-          <div class="btn-actions">
-            <button type="button" id="btnEnviar" onclick="procesarFormulario()">
-              Guardar Registro
+    <div class="form-container">
+      <h1 id="formTitulo">Nuevo Registro</h1>
+      <form id="registroForm">
+        <div class="form-group">
+          <label for="id">DNI/C.E/RUC:</label>
+          <div class="search-group">
+            <input type="text" id="id" required placeholder="Ej: 45404471" />
+            <button type="button" id="btnBuscar" onclick="buscarRegistro()">
+              Buscar ID
             </button>
-            <button
-              type="button"
-              id="btnCancelar"
-              onclick="resetearFormulario()"
-            >
-              Cancelar Edición
+            <button type="button" id="btnLimpiar" onclick="limpiarBusqueda()">
+              Todos
             </button>
           </div>
+        </div>
 
-          <div id="mensaje"></div>
-        </form>
-      </div>
+        <div class="form-group">
+          <label for="estado">Estado:</label>
+          <select id="estado" required>
+            <option value="" disabled selected>Seleccione un estado</option>
+            <option value="Pendiente">Pendiente</option>
+            <option value="Completado">Completado</option>
+            <option value="Observado">Observado</option>
+          </select>
+        </div>
 
-      <!-- COLUMNA 2: PLANTILLAS -->
-      <section class="panel panel-plantillas">
-        <h2>Plantillas Rápidas</h2>
+        <div class="form-group">
+          <label for="observaciones">Observaciones:</label>
+          <textarea id="observaciones" placeholder="Detalles adicionales..."></textarea>
+        </div>
 
-        <!-- Formulario breve para agregar nuevas plantillas -->
-        <div class="agregar-plantilla">
-          <input
-            type="text"
-            id="nueva-plantilla-texto"
-            placeholder="Escribe una nueva plantilla..."
-          />
-          <button
-            type="button"
-            onclick="agregarPlantilla()"
-            class="btn-agregar"
-          >
-            +
+        <div class="btn-actions">
+          <button type="button" id="btnEnviar" onclick="procesarFormulario()">
+            Guardar Registro
+          </button>
+          <button type="button" id="btnCancelar" onclick="resetearFormulario()">
+            Cancelar Edición
           </button>
         </div>
 
-        <!-- Lista donde se mostrarán las plantillas guardadas -->
-        <div id="lista-plantillas" class="lista-plantillas">
-          <!-- Ejemplo de plantilla precargada -->
-          <div class="tarjeta-plantilla">
-            <p>Cliente conforme con la atención brindada.</p>
-            <div class="acciones-plantilla">
-              <button
-                type="button"
-                onclick="copiarTexto(this)"
-                class="btn-copiar"
-              >
-                Copiar
-              </button>
-              <button
-                type="button"
-                onclick="eliminarPlantilla(this)"
-                class="btn-borrar-mini"
-              >
-                ×
-              </button>
-            </div>
+        <div id="mensaje"></div>
+      </form>
+    </div>
+
+
+
+    <!-- COLUMNA 2: TABLA DE COINCIDENCIAS -->
+    <div class="grid-container">
+      <h2>Registros Encontrados</h2>
+      <div class="table-responsive">
+        <table>
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th>DNI/C.E/RUC</th>
+              <th>Fecha</th>
+              <th>Hora</th>
+              <th>Estado</th>
+              <th>Observaciones</th>
+              <th>Acción</th>
+            </tr>
+          </thead>
+          <tbody id="tablaCuerpo">
+            <tr>
+              <td colspan="6" class="no-data">
+                Realice una búsqueda para mostrar los registros.
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- COLUMNA 3: PLANTILLAS -->
+    <section class="panel panel-plantillas">
+      <h2>Plantillas Rápidas</h2>
+
+      <!-- Formulario breve para agregar nuevas plantillas -->
+      <div class="agregar-plantilla">
+        <input type="text" id="nueva-plantilla-texto" placeholder="Escribe una nueva plantilla..." />
+        <button type="button" onclick="agregarPlantilla()" class="btn-agregar">
+          +
+        </button>
+      </div>
+
+      <!-- Lista donde se mostrarán las plantillas guardadas -->
+      <div id="lista-plantillas" class="lista-plantillas">
+        <!-- Ejemplo de plantilla precargada -->
+        <div class="tarjeta-plantilla">
+          <p>Cliente conforme con la atención brindada.</p>
+          <div class="acciones-plantilla">
+            <button type="button" onclick="copiarTexto(this)" class="btn-copiar">
+              Copiar
+            </button>
+            <button type="button" onclick="eliminarPlantilla(this)" class="btn-borrar-mini">
+              X
+            </button>
           </div>
         </div>
-      </section>
-
-      <!-- COLUMNA 3: TABLA DE COINCIDENCIAS -->
-      <div class="grid-container">
-        <h2>Registros Encontrados</h2>
-        <div class="table-responsive">
-          <table>
-            <thead>
-              <tr>
-                <th>ID</th>
-                <th>DNI/C.E/RUC</th>
-                <th>Fecha</th>
-                <th>Hora</th>
-                <th>Estado</th>
-                <th>Observaciones</th>
-                <th>Acción</th>
-              </tr>
-            </thead>
-            <tbody id="tablaCuerpo">
-              <tr>
-                <td colspan="6" class="no-data">
-                  Realice una búsqueda para mostrar los registros.
-                </td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
       </div>
-      
-    </div>
-    <script src="codeNew.js"></script>
-  </body>
+    </section>
+  </div>
+
+  <script src="codeNew.js"></script>
+
+</body>
+
 </html>
