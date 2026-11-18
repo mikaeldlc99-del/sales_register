@@ -239,20 +239,16 @@ body.dark-mode input[type="date"] {
 /* Adaptación para pantallas pequeñas o tablets */
 @media (min-width: 768px) {
   .app-grid {
-    grid-template-columns: 320px 1fr;
+    grid-template-columns: repeat(2, 1fr);
   }
-  /* En tablet, Plantillas ocupa todo el ancho abajo */
   .panel-plantillas {
-    grid-column: 1 / -1;
+    grid-column: auto;
   }
 }
 
 @media (min-width: 1200px) {
   .app-grid {
-    grid-template-columns: 320px 1fr 310px;
-  }
-  .panel-plantillas {
-    grid-column: auto;
+    grid-template-columns: repeat(2, 1fr);
   }
 }
 

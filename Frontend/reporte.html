@@ -3,88 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+   <link rel="stylesheet" href="registros.css">
     <title>Reporte Diario de Registros</title>
-    <style>
-        body {
-            font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
-            background-color: #0b0f19;
-            color: #f8fafc;
-            margin: 0;
-            padding: 30px;
-        }
-        .report-container {
-            max-width: 1000px;
-            margin: 0 auto;
-            background-color: #131b2e;
-            border: 1px solid #1e293b;
-            border-radius: 10px;
-            padding: 30px;
-            box-shadow: 0 8px 25px rgba(0,0,0,0.4);
-        }
-        .header-report {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            border-bottom: 1px solid #1e293b;
-            padding-bottom: 20px;
-            margin-bottom: 20px;
-        }
-        h1 { margin: 0; font-size: 22px; color: #93c5fd; }
-        h2 { font-size: 16px; color: #93c5fd; margin: 25px 0 10px 0; }
-        .fecha-titulo { color: #94a3b8; font-size: 15px; margin-top: 5px; }
-        .btn-print {
-            background-color: #2563eb;
-            color: white;
-            border: none;
-            padding: 10px 16px;
-            border-radius: 6px;
-            font-weight: 600;
-            cursor: pointer;
-        }
-        .btn-print:hover { background-color: #1d4ed8; }
-        .cards-resumen {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 15px;
-            margin-bottom: 25px;
-        }
-        .card-stat {
-            background-color: #0f172a;
-            border: 1px solid #1e293b;
-            padding: 15px 20px;
-            border-radius: 8px;
-            min-width: 130px;
-        }
-        .card-stat span { display: block; font-size: 12px; color: #94a3b8; }
-        .card-stat strong { font-size: 22px; color: #4ade80; }
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            background-color: #0f172a;
-            border-radius: 6px;
-            overflow: hidden;
-            margin-bottom: 25px;
-        }
-        th, td {
-            padding: 12px;
-            text-align: center;
-            border-bottom: 1px solid #1e293b;
-            font-size: 14px;
-        }
-        th { background-color: #090d16; color: #93c5fd; }
-        #tablaReporte td:last-child { text-align: left; }
-
-        @media print {
-            body { background-color: #ffffff; color: #000000; padding: 0; }
-            .report-container { box-shadow: none; border: none; background: #ffffff; color: #000; }
-            .btn-print { display: none; }
-            .card-stat { background: #f8fafc; border: 1px solid #ccc; }
-            .card-stat strong { color: #000; }
-            table { background: #fff; color: #000; }
-            th { background: #e2e8f0; color: #000; }
-            td, th { border: 1px solid #ccc; }
-        }
-    </style>
 </head>
 <body>
     <div class="report-container">
@@ -100,10 +20,10 @@
 
         <!-- TABLA 1: CONTEO POR HORA -->
         <h2>Resumen por Hora</h2>
-        <table>
-            <thead id="theadHoras"></thead>
-            <tbody id="tbodyHoras"></tbody>
-        </table>
+          <table>
+              <thead id="theadHoras"></thead>
+              <tbody id="tbodyHoras"></tbody>
+          </table>
 
         <!-- TABLA 2: LISTADO COMPLETO DEL DÍA -->
         <h2>Detalle de Registros</h2>
@@ -121,130 +41,6 @@
         </table>
     </div>
 
-    <script>
-        const API_URL = "http://localhost:3000/api/registros";
-        const params = new URLSearchParams(window.location.search);
-        const fechaSeleccionada = params.get("fecha");
-
-        window.addEventListener("DOMContentLoaded", async () => {
-            if (!fechaSeleccionada) {
-                document.getElementById("subtituloFecha").textContent = "No se especificó una fecha.";
-                return;
-            }
-
-            const [anio, mes, dia] = fechaSeleccionada.split("-");
-            document.getElementById("subtituloFecha").textContent = `Fecha del reporte: ${dia}/${mes}/${anio}`;
-
-            try {
-                const res = await fetch(`${API_URL}/reporte/${fechaSeleccionada}`);
-                const datos = await res.json();
-                renderizarReporte(datos);
-            } catch (error) {
-                document.getElementById("tablaReporte").innerHTML = 
-                    `<tr><td colspan="5">Error al conectar con el servidor.</td></tr>`;
-            }
-        });
-
-        function renderizarReporte(datos) {
-            const tbody = document.getElementById("tablaReporte");
-            const cards = document.getElementById("cardsResumen");
-
-            if (datos.length === 0) {
-                tbody.innerHTML = `<tr><td colspan="5">No se encontraron registros en esta fecha.</td></tr>`;
-                cards.innerHTML = `<div class="card-stat"><span>Total Registros</span><strong>0</strong></div>`;
-                document.getElementById("theadHoras").innerHTML = "";
-                document.getElementById("tbodyHoras").innerHTML = "";
-                return;
-            }
-
-            // 1. Tarjetas superiores
-            const conteo = datos.reduce((acc, reg) => {
-                acc[reg.estado] = (acc[reg.estado] || 0) + 1;
-                return acc;
-            }, {});
-
-            cards.innerHTML = `<div class="card-stat"><span>Total del Día</span><strong>${datos.length}</strong></div>` +
-                Object.entries(conteo).map(([estado, cant]) => `
-                    <div class="card-stat">
-                        <span>${estado}</span>
-                        <strong>${cant}</strong>
-                    </div>
-                `).join("");
-
-            // 2. Tabla de detalle
-            tbody.innerHTML = datos.map(reg => `
-                <tr>
-                    <td>${reg.id}</td>
-                    <td>${reg.dni}</td>
-                    <td>${reg.hora}</td>
-                    <td>${reg.estado}</td>
-                    <td>${reg.Observaciones || "-"}</td>
-                </tr>
-            `).join("");
-
-            // 3. Tabla de resumen por hora
-            renderizarResumenPorHora(datos);
-        }
-
-        function renderizarResumenPorHora(datos) {
-            const thead = document.getElementById("theadHoras");
-            const tbody = document.getElementById("tbodyHoras");
-
-            const estados = [...new Set(datos.map(r => r.estado))];
-            const porHora = {};
-            const totalesEstado = {};
-            estados.forEach(est => totalesEstado[est] = 0);
-
-            datos.forEach(reg => {
-                // Convertir hora (ej. "09:33 PM") a formato 24h ("21")
-                const partes = reg.hora.split(":");
-                let horaNum = parseInt(partes[0], 10);
-
-                if (reg.hora.includes("PM") && horaNum !== 12) {
-                    horaNum += 12;
-                } else if (reg.hora.includes("AM") && horaNum === 12) {
-                    horaNum = 0;
-                }
-
-                const hora24 = String(horaNum).padStart(2, "0");
-
-                if (!porHora[hora24]) {
-                    porHora[hora24] = { total: 0 };
-                    estados.forEach(est => porHora[hora24][est] = 0);
-                }
-
-                porHora[hora24][reg.estado]++;
-                porHora[hora24].total++;
-                totalesEstado[reg.estado]++;
-            });
-
-            thead.innerHTML = `
-                <tr>
-                    <th>Hora</th>
-                    ${estados.map(est => `<th>${est}</th>`).join("")}
-                    <th>Total</th>
-                </tr>
-            `;
-
-            const horasOrdenadas = Object.keys(porHora).sort();
-            let filasHTML = horasOrdenadas.map(h => `
-                <tr>
-                    <td><strong>${h}:00</strong></td>
-                    ${estados.map(est => `<td>${porHora[h][est] || "-"}</td>`).join("")}
-                    <td><strong>${porHora[h].total}</strong></td>
-                </tr>
-            `).join("");
-
-            filasHTML += `
-                <tr style="background-color: #1e293b; font-weight: bold;">
-                    <td>Total del Día</td>
-                    ${estados.map(est => `<td>${totalesEstado[est]}</td>`).join("")}
-                    <td style="color: #4ade80;">${datos.length}</td>
-                </tr>
-            `;
-
-            tbody.innerHTML = filasHTML;
-        }
-    </script>
+    <script src="registros.js"></script>
 </body>
 </html>

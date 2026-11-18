@@ -1,0 +1,131 @@
+body {
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  background-color: #0b0f19;
+  color: #f8fafc;
+  margin: 0;
+  padding: 30px;
+}
+.report-container {
+  max-width: 1000px;
+  margin: 0 auto;
+  background-color: #131b2e;
+  border: 1px solid #1e293b;
+  border-radius: 10px;
+  padding: 30px;
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.4);
+}
+.header-report {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid #1e293b;
+  padding-bottom: 20px;
+  margin-bottom: 20px;
+}
+h1 {
+  margin: 0;
+  font-size: 22px;
+  color: #93c5fd;
+}
+h2 {
+  font-size: 16px;
+  color: #93c5fd;
+  margin: 25px 0 10px 0;
+}
+.fecha-titulo {
+  color: #94a3b8;
+  font-size: 15px;
+  margin-top: 5px;
+}
+.btn-print {
+  background-color: #2563eb;
+  color: white;
+  border: none;
+  padding: 10px 16px;
+  border-radius: 6px;
+  font-weight: 600;
+  cursor: pointer;
+}
+.btn-print:hover {
+  background-color: #1d4ed8;
+}
+.cards-resumen {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 15px;
+  margin-bottom: 25px;
+}
+.card-stat {
+  background-color: #0f172a;
+  border: 1px solid #1e293b;
+  padding: 15px 20px;
+  border-radius: 8px;
+  min-width: 130px;
+}
+.card-stat span {
+  display: block;
+  font-size: 12px;
+  color: #94a3b8;
+}
+.card-stat strong {
+  font-size: 22px;
+  color: #4ade80;
+}
+table {
+  width: 100%;
+  border-collapse: collapse;
+  background-color: #0f172a;
+  border-radius: 6px;
+  overflow: hidden;
+  margin-bottom: 25px;
+}
+th,
+td {
+  padding: 12px;
+  text-align: center;
+  border-bottom: 1px solid #1e293b;
+  font-size: 14px;
+}
+th {
+  background-color: #090d16;
+  color: #93c5fd;
+}
+#tablaReporte td:last-child {
+  text-align: left;
+}
+
+@media print {
+  body {
+    background-color: #ffffff;
+    color: #000000;
+    padding: 0;
+  }
+  .report-container {
+    box-shadow: none;
+    border: none;
+    background: #ffffff;
+    color: #000;
+  }
+  .btn-print {
+    display: none;
+  }
+  .card-stat {
+    background: #f8fafc;
+    border: 1px solid #ccc;
+  }
+  .card-stat strong {
+    color: #000;
+  }
+  table {
+    background: #fff;
+    color: #000;
+  }
+  th {
+    background: #e2e8f0;
+    color: #000;
+  }
+  td,
+  th {
+    border: 1px solid #ccc;
+  }
+}
